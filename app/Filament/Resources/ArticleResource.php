@@ -8,6 +8,8 @@ use App\Models\Article;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -57,11 +59,64 @@ class ArticleResource extends Resource
                             ->required()
                             ->maxLength(255),
                         
-                        Forms\Components\TextInput::make('image')
-                            ->label('URL Gambar')
-                            ->url()
-                            ->maxLength(255)
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Gambar Artikel')
+                            ->image()
+                            ->disk('public')
+                            ->directory('articles')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->maxSize(2048) // 2MB
                             ->columnSpanFull(),
+                    ])
+                    ->columns(2),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make('Detail Artikel')
+                    ->schema([
+                        Infolists\Components\ImageEntry::make('image')
+                            ->label('Gambar')
+                            ->disk('public')
+                            ->height(200)
+                            ->width(300)
+                            ->extraImgAttributes(['style' => 'object-fit: cover; border-radius: 8px;'])
+                            ->columnSpanFull(),                        
+                        
+                        Infolists\Components\TextEntry::make('judul')
+                            ->label('Judul')
+                            ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
+                            ->weight('bold')
+                            ->columnSpanFull(),
+                        
+                        Infolists\Components\TextEntry::make('deskripsi')
+                            ->label('Deskripsi')
+                            ->markdown()
+                            ->columnSpanFull(),
+                        
+                        Infolists\Components\TextEntry::make('tag.nama')
+                            ->label('Tag')
+                            ->badge()
+                            ->color('primary'),
+                        
+                        Infolists\Components\TextEntry::make('penulis')
+                            ->label('Penulis'),
+                        
+                        Infolists\Components\TextEntry::make('created_at')
+                            ->label('Dibuat pada')
+                            ->dateTime('d M Y, H:i'),
+                        
+                        Infolists\Components\TextEntry::make('updated_at')
+                            ->label('Diperbarui pada')
+                            ->dateTime('d M Y, H:i'),
                     ])
                     ->columns(2),
             ]);
@@ -73,7 +128,10 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Gambar')
-                    ->size(60)
+                    ->disk('public')
+                    ->height(60)
+                    ->width(80)
+                    ->extraImgAttributes(['style' => 'object-fit: cover;'])
                     ->defaultImageUrl('/images/placeholder.jpg'),
                 
                 Tables\Columns\TextColumn::make('judul')
