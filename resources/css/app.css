@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Custom colors */
+    /* --color-primary: #2563eb;
+    --color-primary-glow: #1d4ed8;
+    --color-accent: #e0f2fe;
+    --color-accent-foreground: #1e3a8a;
+    --color-border: #e5e7eb;
+    --color-custom-bg: #f8fafc;
+    --color-custom-bg-dark: #1e293b; */
+
+    /* Village-inspired color palette */
+    --background: 0 0% 100%;
+    --foreground: 142 47% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 142 47% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 142 47% 8%;
+
+    /* Nature-inspired primary colors */
+    --color-primary: #fff;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 142 76% 46%;
+
+    /* Warm earth tones */
+    --secondary: 45 29% 97%;
+    --secondary-foreground: 142 47% 8%;
+
+    --muted: 45 29% 97%;
+    --muted-foreground: 215 13% 45%;
+
+    --accent: 142 31% 93%;
+    --accent-foreground: 142 47% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 142 31% 88%;
+    --input: 142 31% 88%;
+    --ring: 142 76% 36%;
+
+    /* Custom village theme colors */
+    --village-brown: 30 25% 25%;
+    --color-village-green: 142 76% 36%;
+    --village-gold: 45 93% 58%;
+    --village-cream: 45 29% 97%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
+    --gradient-section: linear-gradient(180deg, hsl(45 29% 97%), hsl(0 0% 100%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(45 29% 97%));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(142 76% 36% / 0.1);
+    --shadow-medium: 0 8px 30px -4px hsl(142 76% 36% / 0.15);
+    --shadow-strong: 0 20px 60px -12px hsl(142 76% 36% / 0.25);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+}
