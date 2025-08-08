@@ -17,7 +17,7 @@ class ArticleController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10); // Default 10 items per page
+            $perPage = $request->get('per_page', 9); // Default 9 items per page
             $perPage = min($perPage, 50); // Maximum 50 items per page
             
             $articles = Article::with('tag')
