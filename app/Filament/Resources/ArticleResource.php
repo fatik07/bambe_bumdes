@@ -40,12 +40,21 @@ class ArticleResource extends Resource
                             ->label('Judul')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->columnSpanFull(),                    
                         
-                        Forms\Components\Textarea::make('deskripsi')
+                        Forms\Components\RichEditor::make('deskripsi')
                             ->label('Deskripsi')
                             ->required()
-                            ->rows(5)
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'link',
+                                'bulletList',
+                                'numberedList',
+                                'blockquote',
+                                'codeBlock',
+                            ])
                             ->columnSpanFull(),
                         
                         Forms\Components\Select::make('tag_id')
@@ -54,10 +63,11 @@ class ArticleResource extends Resource
                             ->required()
                             ->searchable(),
                         
-                        Forms\Components\TextInput::make('penulis')
+                        Forms\Components\Select::make('penulis')
                             ->label('Penulis')
+                            ->options(\App\Models\User::all()->pluck('name', 'name'))
                             ->required()
-                            ->maxLength(255),
+                            ->searchable(),
                         
                         Forms\Components\FileUpload::make('image')
                             ->label('Gambar Artikel')

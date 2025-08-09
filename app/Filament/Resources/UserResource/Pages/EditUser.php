@@ -24,4 +24,9 @@ class EditUser extends EditRecord
         unset($data['password']);
         return $data;
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }
