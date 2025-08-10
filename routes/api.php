@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\KatalogController;
 use App\Http\Controllers\Api\LegalitasController;
+use App\Http\Controllers\Api\SubKatalogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,18 @@ Route::prefix('katalogs')->group(function () {
     Route::get('/', [KatalogController::class, 'index']);
     Route::get('/home', [KatalogController::class, 'getForHome']);
     Route::post('/', [KatalogController::class, 'store']);
-    Route::get('/{id}', [KatalogController::class, 'show']);
-    Route::put('/{id}', [KatalogController::class, 'update']);
-    Route::delete('/{id}', [KatalogController::class, 'destroy']);
+    Route::get('/{slug}', [KatalogController::class, 'show']);
+    Route::put('/{slug}', [KatalogController::class, 'update']);
+    Route::delete('/{slug}', [KatalogController::class, 'destroy']);
+});
+
+// Sub Katalog API Routes
+Route::prefix('katalogs/{katalogSlug}/sub-katalogs')->group(function () {
+    Route::get('/', [SubKatalogController::class, 'getByKatalog']);
+    Route::post('/', [SubKatalogController::class, 'store']);
+    Route::get('/{subKatalogSlug}', [SubKatalogController::class, 'show']);
+    Route::put('/{subKatalogSlug}', [SubKatalogController::class, 'update']);
+    Route::delete('/{subKatalogSlug}', [SubKatalogController::class, 'destroy']);
 });
 
 // Legalitas API Routes

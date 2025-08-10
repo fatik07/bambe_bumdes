@@ -535,3 +535,263 @@ http://localhost:8080/api/katalogs
 
 -   `/katalogs/home` - Khusus untuk halaman home, mengembalikan 4 katalog terbaru dengan field terbatas (id, nama, deskripsi)
 -   `/katalogs/{slug}` - Menggunakan slug sebagai identifier, bukan ID numerik
+
+---
+
+# Dokumentasi API Sub Katalog
+
+## Base URL
+
+```
+http://localhost:8080/api/katalogs/{katalogSlug}/sub-katalogs
+```
+
+## URL Pattern
+
+Untuk mengakses sub katalog, URL mengikuti pattern: `katalogs/{katalog-slug}/sub-katalogs/{sub-katalog-slug}`
+
+**Contoh**: `katalogs/layanan-jasa/sub-katalogs/konsultasi-bisnis`
+
+## Endpoints
+
+### 1. Mendapatkan Semua Sub Katalog Berdasarkan Katalog
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs`
+-   **Method**: `GET`
+-   **Parameter**: `katalogSlug` (string) - Slug dari katalog parent
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data sub katalog berhasil diambil",
+    "data": {
+        "katalog": {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "slug": "layanan-jasa",
+            "deskripsi": "Beragam layanan jasa profesional yang disediakan BUMDes untuk mendukung kebutuhan bisnis dan pribadi masyarakat",
+            "created_at": "2025-08-10T11:47:20.000000Z",
+            "updated_at": "2025-08-10T11:47:20.000000Z"
+        },
+        "sub_katalogs": [
+            {
+                "id": 1,
+                "katalog_id": 2,
+                "nama": "Konsultasi Bisnis",
+                "slug": "konsultasi-bisnis",
+                "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+                "image": "sub_katalogs/konsultasi_bisnis.jpg",
+                "image_url": "http://localhost:8080/storage/sub_katalogs/konsultasi_bisnis.jpg",
+                "created_at": "2025-08-10T11:47:38.000000Z",
+                "updated_at": "2025-08-10T11:47:38.000000Z",
+                "katalog": {
+                    "id": 2,
+                    "nama": "Layanan Jasa",
+                    "slug": "layanan-jasa"
+                }
+            }
+        ]
+    }
+}
+```
+
+### 2. Mendapatkan Detail Sub Katalog
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}`
+-   **Method**: `GET`
+-   **Parameter**:
+    -   `katalogSlug` (string) - Slug dari katalog parent
+    -   `subKatalogSlug` (string) - Slug dari sub katalog
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data sub katalog berhasil diambil",
+    "data": {
+        "id": 1,
+        "katalog_id": 2,
+        "nama": "Konsultasi Bisnis",
+        "slug": "konsultasi-bisnis",
+        "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+        "image": "sub_katalogs/konsultasi_bisnis.jpg",
+        "image_url": "http://localhost:8080/storage/sub_katalogs/konsultasi_bisnis.jpg",
+        "created_at": "2025-08-10T11:47:38.000000Z",
+        "updated_at": "2025-08-10T11:47:38.000000Z",
+        "katalog": {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "slug": "layanan-jasa"
+        }
+    }
+}
+```
+
+### 3. Membuat Sub Katalog Baru
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs`
+-   **Method**: `POST`
+-   **Content-Type**: `multipart/form-data`
+-   **Request Body**:
+
+```
+katalog_id: 2 (required, exists in katalogs table)
+nama: "Nama Sub Katalog" (required, string, max 255)
+deskripsi: "Deskripsi sub katalog" (required, string)
+image: [file] (optional, image file: jpeg,png,jpg,gif, max 2MB)
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Sub katalog berhasil dibuat",
+    "data": {
+        "id": 17,
+        "katalog_id": 2,
+        "nama": "Nama Sub Katalog",
+        "slug": "nama-sub-katalog",
+        "deskripsi": "Deskripsi sub katalog",
+        "image": "sub_katalogs/1691234567_image.jpg",
+        "image_url": "http://localhost:8080/storage/sub_katalogs/1691234567_image.jpg",
+        "created_at": "2025-08-10T12:00:00.000000Z",
+        "updated_at": "2025-08-10T12:00:00.000000Z",
+        "katalog": {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "slug": "layanan-jasa"
+        }
+    }
+}
+```
+
+### 4. Mengupdate Sub Katalog
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}`
+-   **Method**: `PUT`
+-   **Content-Type**: `multipart/form-data`
+-   **Request Body**:
+
+```
+nama: "Nama Sub Katalog Updated" (required, string, max 255)
+deskripsi: "Deskripsi yang sudah diupdate" (required, string)
+image: [file] (optional, image file: jpeg,png,jpg,gif, max 2MB)
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Sub katalog berhasil diupdate",
+    "data": {
+        "id": 1,
+        "katalog_id": 2,
+        "nama": "Nama Sub Katalog Updated",
+        "slug": "nama-sub-katalog-updated",
+        "deskripsi": "Deskripsi yang sudah diupdate",
+        "image": "sub_katalogs/1691234567_new_image.jpg",
+        "image_url": "http://localhost:8080/storage/sub_katalogs/1691234567_new_image.jpg",
+        "created_at": "2025-08-10T11:47:38.000000Z",
+        "updated_at": "2025-08-10T12:05:00.000000Z",
+        "katalog": {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "slug": "layanan-jasa"
+        }
+    }
+}
+```
+
+### 5. Menghapus Sub Katalog
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}`
+-   **Method**: `DELETE`
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Sub katalog berhasil dihapus"
+}
+```
+
+## Error Responses
+
+### Not Found (404)
+
+```json
+{
+    "success": false,
+    "message": "Sub katalog tidak ditemukan",
+    "error": "Error details"
+}
+```
+
+### Server Error (500)
+
+```json
+{
+    "success": false,
+    "message": "Gagal mengambil data sub katalog",
+    "error": "Detailed error information"
+}
+```
+
+### Validation Error (422)
+
+```json
+{
+    "success": false,
+    "message": "Validasi gagal",
+    "errors": {
+        "nama": ["The nama field is required."],
+        "deskripsi": ["The deskripsi field is required."],
+        "katalog_id": ["The katalog_id field is required."],
+        "image": [
+            "The image must be an image.",
+            "The image may not be greater than 2048 kilobytes."
+        ]
+    }
+}
+```
+
+## Validation Rules
+
+-   **katalog_id**: Required, must exist in katalogs table
+-   **nama**: Required, string, maximum 255 characters
+-   **deskripsi**: Required, string (text field)
+-   **image**: Optional, must be image file (jpeg, png, jpg, gif), maximum 2MB
+
+## File Upload Specifications
+
+-   **Allowed formats**: JPEG, PNG, JPG, GIF
+-   **Maximum size**: 2MB (2048 KB)
+-   **Storage location**: `storage/app/public/sub_katalogs/`
+-   **Access URL**: `http://domain.com/storage/sub_katalogs/filename.ext`
+-   **Naming**: Laravel akan otomatis generate nama file unik dengan timestamp
+-   **Auto-delete**: File lama dihapus otomatis saat update/delete sub katalog
+
+## Catatan Tambahan
+
+### Slug Generation
+
+-   Slug dibuat otomatis dari nama sub katalog menggunakan format kebab-case
+-   Contoh: "Konsultasi Bisnis" menjadi "konsultasi-bisnis"
+-   Slug harus unik dalam database
+-   Slug digunakan untuk mengakses detail sub katalog melalui API
+
+### Nested URL Structure
+
+-   Sub katalog diakses melalui struktur URL bersarang: `katalogs/{katalog-slug}/sub-katalogs/{sub-katalog-slug}`
+-   Hal ini memungkinkan URL yang SEO-friendly dan mudah dipahami
+-   Contoh lengkap: `katalogs/layanan-jasa/sub-katalogs/konsultasi-bisnis`
+
+### Image Handling
+
+-   Gambar otomatis diakses melalui attribute `image_url`
+-   File gambar disimpan dalam folder `storage/app/public/sub_katalogs/`
+-   Jika tidak ada gambar, `image_url` akan bernilai `null`
+-   Gambar lama akan dihapus otomatis saat upload gambar baru atau delete record

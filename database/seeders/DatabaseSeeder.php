@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             LegalitasSeeder::class,
             KatalogSeeder::class,
+            SubKatalogSeeder::class,
         ]);
     }
 }
