@@ -307,3 +307,231 @@ const prevPage = () => {
 -   **Access URL**: `http://domain.com/storage/articles/filename.ext`
 -   **Naming**: Laravel akan otomatis generate nama file unik
 -   **Auto-delete**: File lama dihapus otomatis saat update/delete artikel
+
+---
+
+# Dokumentasi API Katalog
+
+## Base URL
+
+```
+http://localhost:8080/api/katalogs
+```
+
+## Endpoints
+
+### 1. Mendapatkan Semua Katalog
+
+-   **URL**: `/katalogs`
+-   **Method**: `GET`
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data katalog berhasil diambil",
+    "data": [
+        {
+            "id": 1,
+            "nama": "Produk Unggulan",
+            "deskripsi": "Berbagai produk unggulan dari BUMDes yang berkualitas tinggi dan terpercaya untuk memenuhi kebutuhan masyarakat",
+            "created_at": "2025-08-09T19:45:00.000000Z",
+            "updated_at": "2025-08-09T19:45:00.000000Z"
+        },
+        {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "deskripsi": "Beragam layanan jasa profesional yang disediakan BUMDes untuk mendukung kebutuhan bisnis dan pribadi masyarakat",
+            "created_at": "2025-08-09T19:45:00.000000Z",
+            "updated_at": "2025-08-09T19:45:00.000000Z"
+        }
+    ]
+}
+```
+
+### 2. Mendapatkan Katalog untuk Halaman Home (4 Data)
+
+-   **URL**: `/katalogs/home`
+-   **Method**: `GET`
+-   **Description**: Khusus untuk menampilkan 4 katalog di halaman home, hanya mengembalikan id, nama, dan deskripsi
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data katalog untuk home berhasil diambil",
+    "data": [
+        {
+            "id": 1,
+            "nama": "Produk Unggulan",
+            "deskripsi": "Berbagai produk unggulan dari BUMDes yang berkualitas tinggi dan terpercaya untuk memenuhi kebutuhan masyarakat"
+        },
+        {
+            "id": 2,
+            "nama": "Layanan Jasa",
+            "deskripsi": "Beragam layanan jasa profesional yang disediakan BUMDes untuk mendukung kebutuhan bisnis dan pribadi masyarakat"
+        },
+        {
+            "id": 3,
+            "nama": "Produk Digital",
+            "deskripsi": "Inovasi produk digital terdepan untuk mendukung transformasi digital di era modern"
+        },
+        {
+            "id": 4,
+            "nama": "Kemitraan Bisnis",
+            "deskripsi": "Program kemitraan strategis untuk mengembangkan bisnis bersama dan menciptakan nilai tambah"
+        }
+    ]
+}
+```
+
+### 3. Mendapatkan Katalog Berdasarkan Slug
+
+-   **URL**: `/katalogs/{slug}`
+-   **Method**: `GET`
+-   **Parameter**: `slug` (string) - Slug unik dari katalog (contoh: "produk-unggulan")
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data katalog berhasil diambil",
+    "data": {
+        "id": 1,
+        "nama": "Produk Unggulan",
+        "slug": "produk-unggulan",
+        "deskripsi": "Berbagai produk unggulan dari BUMDes yang berkualitas tinggi dan terpercaya untuk memenuhi kebutuhan masyarakat",
+        "created_at": "2025-08-09T19:45:00.000000Z",
+        "updated_at": "2025-08-09T19:45:00.000000Z"
+    }
+}
+```
+
+### 4. Membuat Katalog Baru
+
+-   **URL**: `/katalogs`
+-   **Method**: `POST`
+-   **Request Body**:
+
+```json
+{
+    "nama": "Nama Katalog",
+    "deskripsi": "Deskripsi katalog yang detail"
+}
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Katalog berhasil dibuat",
+    "data": {
+        "id": 7,
+        "nama": "Nama Katalog",
+        "slug": "nama-katalog",
+        "deskripsi": "Deskripsi katalog yang detail",
+        "created_at": "2025-08-09T20:00:00.000000Z",
+        "updated_at": "2025-08-09T20:00:00.000000Z"
+    }
+}
+```
+
+### 5. Mengupdate Katalog
+
+-   **URL**: `/katalogs/{slug}`
+-   **Method**: `PUT`
+-   **Parameter**: `slug` (string) - Slug unik dari katalog yang akan diupdate
+-   **Request Body**:
+
+```json
+{
+    "nama": "Nama Katalog Updated",
+    "deskripsi": "Deskripsi katalog yang sudah diupdate"
+}
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Katalog berhasil diupdate",
+    "data": {
+        "id": 1,
+        "nama": "Nama Katalog Updated",
+        "slug": "nama-katalog-updated",
+        "deskripsi": "Deskripsi katalog yang sudah diupdate",
+        "created_at": "2025-08-09T19:45:00.000000Z",
+        "updated_at": "2025-08-09T20:05:00.000000Z"
+    }
+}
+```
+
+### 6. Menghapus Katalog
+
+-   **URL**: `/katalogs/{slug}`
+-   **Method**: `DELETE`
+-   **Parameter**: `slug` (string) - Slug unik dari katalog yang akan dihapus
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Katalog berhasil dihapus"
+}
+```
+
+## Error Responses
+
+### Not Found (404)
+
+```json
+{
+    "success": false,
+    "message": "Katalog tidak ditemukan",
+    "error": "Error details"
+}
+```
+
+### Server Error (500)
+
+```json
+{
+    "success": false,
+    "message": "Gagal mengambil data katalog",
+    "error": "Detailed error information"
+}
+```
+
+### Validation Error (422)
+
+```json
+{
+    "success": false,
+    "message": "Validasi gagal",
+    "errors": {
+        "nama": ["The nama field is required."],
+        "deskripsi": ["The deskripsi field is required."]
+    }
+}
+```
+
+## Validation Rules
+
+-   **nama**: Required, string, maximum 255 characters
+-   **deskripsi**: Required, string (text field)
+
+## Catatan Tambahan
+
+### Slug Generation
+
+-   Slug dibuat otomatis dari nama katalog menggunakan format kebab-case
+-   Contoh: "Produk Unggulan" menjadi "produk-unggulan"
+-   Slug harus unik dalam database
+-   Slug digunakan untuk mengakses detail katalog melalui API
+
+### Endpoint Khusus
+
+-   `/katalogs/home` - Khusus untuk halaman home, mengembalikan 4 katalog terbaru dengan field terbatas (id, nama, deskripsi)
+-   `/katalogs/{slug}` - Menggunakan slug sebagai identifier, bukan ID numerik
