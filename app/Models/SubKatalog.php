@@ -54,4 +54,9 @@ class SubKatalog extends Model
 
         return $slug;
     }
+
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
+    }
 }

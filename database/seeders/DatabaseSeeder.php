@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             LegalitasSeeder::class,
             KatalogSeeder::class,
             SubKatalogSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }

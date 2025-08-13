@@ -795,3 +795,322 @@ image: [file] (optional, image file: jpeg,png,jpg,gif, max 2MB)
 -   File gambar disimpan dalam folder `storage/app/public/sub_katalogs/`
 -   Jika tidak ada gambar, `image_url` akan bernilai `null`
 -   Gambar lama akan dihapus otomatis saat upload gambar baru atau delete record
+
+---
+
+# Dokumentasi API Testimonial
+
+## Base URL
+
+```
+http://localhost:8080/api/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials
+```
+
+## URL Pattern
+
+Untuk mengakses testimonial, URL mengikuti pattern: `katalogs/{katalog-slug}/sub-katalogs/{sub-katalog-slug}/testimonials/{id}`
+
+**Contoh**: `katalogs/layanan-jasa/sub-katalogs/konsultasi-bisnis/testimonials/1`
+
+## Endpoints
+
+### 1. Mendapatkan Semua Testimonial Berdasarkan Sub Katalog
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials`
+-   **Method**: `GET`
+-   **Parameter**:
+    -   `katalogSlug` (string) - Slug dari katalog parent
+    -   `subKatalogSlug` (string) - Slug dari sub katalog
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data testimonial berhasil diambil",
+    "data": {
+        "sub_katalog": {
+            "id": 1,
+            "katalog_id": 2,
+            "nama": "Konsultasi Bisnis",
+            "slug": "konsultasi-bisnis",
+            "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+            "image": null,
+            "image_url": null,
+            "created_at": "2025-08-10T11:47:38.000000Z",
+            "updated_at": "2025-08-10T11:47:38.000000Z",
+            "katalog": {
+                "id": 2,
+                "nama": "Layanan Jasa",
+                "slug": "layanan-jasa"
+            }
+        },
+        "testimonials": [
+            {
+                "id": 1,
+                "sub_katalog_id": 1,
+                "nama_project": "Website E-Commerce Fashion",
+                "nama_client": "Toko Busana Indah",
+                "deskripsi": "Pengembangan website e-commerce untuk toko fashion dengan fitur lengkap seperti katalog produk, keranjang belanja, dan sistem pembayaran online.",
+                "complete_hari": 30,
+                "gambar": "testimonials/1691234567_project.jpg",
+                "gambar_url": "http://localhost:8080/storage/testimonials/1691234567_project.jpg",
+                "created_at": "2025-08-12T08:49:53.000000Z",
+                "updated_at": "2025-08-12T08:49:53.000000Z",
+                "sub_katalog": {
+                    "id": 1,
+                    "nama": "Konsultasi Bisnis",
+                    "slug": "konsultasi-bisnis"
+                }
+            }
+        ]
+    }
+}
+```
+
+### 2. Mendapatkan Detail Testimonial
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials/{id}`
+-   **Method**: `GET`
+-   **Parameter**:
+    -   `katalogSlug` (string) - Slug dari katalog parent
+    -   `subKatalogSlug` (string) - Slug dari sub katalog
+    -   `id` (integer) - ID dari testimonial
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Data testimonial berhasil diambil",
+    "data": {
+        "id": 1,
+        "sub_katalog_id": 1,
+        "nama_project": "Website E-Commerce Fashion",
+        "nama_client": "Toko Busana Indah",
+        "deskripsi": "Pengembangan website e-commerce untuk toko fashion dengan fitur lengkap seperti katalog produk, keranjang belanja, dan sistem pembayaran online.",
+        "complete_hari": 30,
+        "gambar": "testimonials/1691234567_project.jpg",
+        "gambar_url": "http://localhost:8080/storage/testimonials/1691234567_project.jpg",
+        "created_at": "2025-08-12T08:49:53.000000Z",
+        "updated_at": "2025-08-12T08:49:53.000000Z",
+        "sub_katalog": {
+            "id": 1,
+            "katalog_id": 2,
+            "nama": "Konsultasi Bisnis",
+            "slug": "konsultasi-bisnis",
+            "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+            "image": null,
+            "image_url": null,
+            "created_at": "2025-08-10T11:47:38.000000Z",
+            "updated_at": "2025-08-10T11:47:38.000000Z",
+            "katalog": {
+                "id": 2,
+                "nama": "Layanan Jasa",
+                "slug": "layanan-jasa"
+            }
+        }
+    }
+}
+```
+
+### 3. Membuat Testimonial Baru
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials`
+-   **Method**: `POST`
+-   **Content-Type**: `multipart/form-data`
+-   **Request Body**:
+
+```
+sub_katalog_id: 1 (required, exists in sub_katalogs table)
+nama_project: "Website E-Commerce Fashion" (required, string, max 255)
+nama_client: "Toko Busana Indah" (required, string, max 255)
+deskripsi: "Deskripsi project yang detail" (required, string)
+complete_hari: 30 (required, integer, min 1)
+gambar: [file] (optional, image file: jpeg,png,jpg,gif, max 2MB)
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Testimonial berhasil dibuat",
+    "data": {
+        "id": 7,
+        "sub_katalog_id": 1,
+        "nama_project": "Website E-Commerce Fashion",
+        "nama_client": "Toko Busana Indah",
+        "deskripsi": "Deskripsi project yang detail",
+        "complete_hari": 30,
+        "gambar": "testimonials/1691234567_project.jpg",
+        "gambar_url": "http://localhost:8080/storage/testimonials/1691234567_project.jpg",
+        "created_at": "2025-08-12T09:00:00.000000Z",
+        "updated_at": "2025-08-12T09:00:00.000000Z",
+        "sub_katalog": {
+            "id": 1,
+            "katalog_id": 2,
+            "nama": "Konsultasi Bisnis",
+            "slug": "konsultasi-bisnis",
+            "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+            "image": null,
+            "image_url": null,
+            "created_at": "2025-08-10T11:47:38.000000Z",
+            "updated_at": "2025-08-10T11:47:38.000000Z",
+            "katalog": {
+                "id": 2,
+                "nama": "Layanan Jasa",
+                "slug": "layanan-jasa"
+            }
+        }
+    }
+}
+```
+
+### 4. Mengupdate Testimonial
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials/{id}`
+-   **Method**: `PUT`
+-   **Content-Type**: `multipart/form-data`
+-   **Request Body**:
+
+```
+nama_project: "Website E-Commerce Fashion Updated" (required, string, max 255)
+nama_client: "Toko Busana Indah Updated" (required, string, max 255)
+deskripsi: "Deskripsi yang sudah diupdate" (required, string)
+complete_hari: 45 (required, integer, min 1)
+gambar: [file] (optional, image file: jpeg,png,jpg,gif, max 2MB)
+```
+
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Testimonial berhasil diupdate",
+    "data": {
+        "id": 1,
+        "sub_katalog_id": 1,
+        "nama_project": "Website E-Commerce Fashion Updated",
+        "nama_client": "Toko Busana Indah Updated",
+        "deskripsi": "Deskripsi yang sudah diupdate",
+        "complete_hari": 45,
+        "gambar": "testimonials/1691234567_new_project.jpg",
+        "gambar_url": "http://localhost:8080/storage/testimonials/1691234567_new_project.jpg",
+        "created_at": "2025-08-12T08:49:53.000000Z",
+        "updated_at": "2025-08-12T09:05:00.000000Z",
+        "sub_katalog": {
+            "id": 1,
+            "katalog_id": 2,
+            "nama": "Konsultasi Bisnis",
+            "slug": "konsultasi-bisnis",
+            "deskripsi": "Layanan konsultasi untuk pengembangan bisnis UMKM dan strategi pemasaran",
+            "image": null,
+            "image_url": null,
+            "created_at": "2025-08-10T11:47:38.000000Z",
+            "updated_at": "2025-08-10T11:47:38.000000Z",
+            "katalog": {
+                "id": 2,
+                "nama": "Layanan Jasa",
+                "slug": "layanan-jasa"
+            }
+        }
+    }
+}
+```
+
+### 5. Menghapus Testimonial
+
+-   **URL**: `/katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials/{id}`
+-   **Method**: `DELETE`
+-   **Response**:
+
+```json
+{
+    "success": true,
+    "message": "Testimonial berhasil dihapus"
+}
+```
+
+## Error Responses
+
+### Not Found (404)
+
+```json
+{
+    "success": false,
+    "message": "Testimonial tidak ditemukan",
+    "error": "Error details"
+}
+```
+
+### Server Error (500)
+
+```json
+{
+    "success": false,
+    "message": "Gagal mengambil data testimonial",
+    "error": "Detailed error information"
+}
+```
+
+### Validation Error (422)
+
+```json
+{
+    "success": false,
+    "message": "Validasi gagal",
+    "errors": {
+        "nama_project": ["The nama project field is required."],
+        "nama_client": ["The nama client field is required."],
+        "deskripsi": ["The deskripsi field is required."],
+        "complete_hari": [
+            "The complete hari field is required.",
+            "The complete hari must be at least 1."
+        ],
+        "sub_katalog_id": ["The sub katalog id field is required."],
+        "gambar": [
+            "The gambar must be an image.",
+            "The gambar may not be greater than 2048 kilobytes."
+        ]
+    }
+}
+```
+
+## Validation Rules
+
+-   **sub_katalog_id**: Required, must exist in sub_katalogs table
+-   **nama_project**: Required, string, maximum 255 characters
+-   **nama_client**: Required, string, maximum 255 characters
+-   **deskripsi**: Required, string (text field)
+-   **complete_hari**: Required, integer, minimum value 1
+-   **gambar**: Optional, must be image file (jpeg, png, jpg, gif), maximum 2MB
+
+## File Upload Specifications
+
+-   **Allowed formats**: JPEG, PNG, JPG, GIF
+-   **Maximum size**: 2MB (2048 KB)
+-   **Storage location**: `storage/app/public/testimonials/`
+-   **Access URL**: `http://domain.com/storage/testimonials/filename.ext`
+-   **Naming**: Laravel akan otomatis generate nama file unik dengan timestamp
+-   **Auto-delete**: File lama dihapus otomatis saat update/delete testimonial
+
+## Catatan Tambahan
+
+### Nested URL Structure
+
+-   Testimonial diakses melalui struktur URL bersarang: `katalogs/{katalog-slug}/sub-katalogs/{sub-katalog-slug}/testimonials/{id}`
+-   Hal ini memungkinkan URL yang SEO-friendly dan mudah dipahami
+-   Contoh lengkap: `katalogs/layanan-jasa/sub-katalogs/konsultasi-bisnis/testimonials/1`
+
+### Image Handling
+
+-   Gambar otomatis diakses melalui attribute `gambar_url`
+-   File gambar disimpan dalam folder `storage/app/public/testimonials/`
+-   Jika tidak ada gambar, `gambar_url` akan bernilai `null`
+-   Gambar lama akan dihapus otomatis saat upload gambar baru atau delete record
+
+### Use Case untuk Frontend
+
+-   Endpoint ini cocok untuk button testimonial pada card sub katalog di UI
+-   Frontend dapat menampilkan modal atau halaman terpisah dengan daftar testimonial
+-   Data testimonial berisi informasi project yang sudah dikerjakan beserta client dan durasi penyelesaian
+-   Dapat digunakan untuk menampilkan portfolio atau track record dari sub katalog tertentu

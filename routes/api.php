@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\KatalogController;
 use App\Http\Controllers\Api\LegalitasController;
 use App\Http\Controllers\Api\SubKatalogController;
+use App\Http\Controllers\Api\TestimonialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,15 @@ Route::prefix('katalogs/{katalogSlug}/sub-katalogs')->group(function () {
     Route::get('/{subKatalogSlug}', [SubKatalogController::class, 'show']);
     Route::put('/{subKatalogSlug}', [SubKatalogController::class, 'update']);
     Route::delete('/{subKatalogSlug}', [SubKatalogController::class, 'destroy']);
+});
+
+// Testimonial API Routes
+Route::prefix('katalogs/{katalogSlug}/sub-katalogs/{subKatalogSlug}/testimonials')->group(function () {
+    Route::get('/', [TestimonialController::class, 'getBySubKatalog']);
+    Route::post('/', [TestimonialController::class, 'store']);
+    Route::get('/{id}', [TestimonialController::class, 'show']);
+    Route::put('/{id}', [TestimonialController::class, 'update']);
+    Route::delete('/{id}', [TestimonialController::class, 'destroy']);
 });
 
 // Legalitas API Routes
