@@ -22,6 +22,8 @@ class KatalogResource extends Resource
     protected static ?string $navigationLabel = 'Katalog';
 
     protected static ?string $pluralModelLabel = 'Katalog';
+    protected static ?string $navigationGroup = 'Katalog';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -43,7 +45,8 @@ class KatalogResource extends Resource
                     ->maxLength(255)
                     ->label('Slug')
                     ->unique(ignoreRecord: true)
-                    ->rules(['alpha_dash']),
+                    ->rules(['alpha_dash'])
+                    ->disabled(),
                 Forms\Components\Textarea::make('deskripsi')
                     ->required()
                     ->rows(4)
@@ -68,22 +71,17 @@ class KatalogResource extends Resource
                 Tables\Columns\TextColumn::make('deskripsi')
                     ->limit(50)
                     ->label('Deskripsi'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->label('Dibuat'),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->label('Dibuat'),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -98,8 +96,18 @@ class KatalogResource extends Resource
     {
         return [
             'index' => Pages\ListKatalogs::route('/'),
-            'create' => Pages\CreateKatalog::route('/create'),
+            // 'create' => Pages\CreateKatalog::route('/create'),
             'edit' => Pages\EditKatalog::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

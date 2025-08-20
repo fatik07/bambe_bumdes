@@ -28,7 +28,8 @@ class ArticleResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Artikel';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'Halaman';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -76,11 +77,18 @@ class ArticleResource extends Resource
                             ->directory('articles')
                             ->imageEditor()
                             ->imageEditorAspectRatios([
+                                null,
                                 '16:9',
                                 '4:3',
                                 '1:1',
+                                '3:4',
+                                '9:16',
                             ])
-                            ->maxSize(2048) // 2MB
+                            ->imageResizeMode('contain')
+                            ->imageResizeTargetWidth('1200')
+                            ->imageResizeTargetHeight('1200')
+                            ->helperText('Upload gambar dengan format JPG, PNG, atau GIF. Maksimal ukuran file 2MB.')
+                            ->maxSize(2048)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
@@ -208,5 +216,10 @@ class ArticleResource extends Resource
             'view' => Pages\ViewArticle::route('/{record}'),
             'edit' => Pages\EditArticle::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

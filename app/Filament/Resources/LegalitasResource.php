@@ -26,8 +26,9 @@ class LegalitasResource extends Resource
     protected static ?string $modelLabel = 'Legalitas';
 
     protected static ?string $pluralModelLabel = 'Legalitas';
+    protected static ?string $navigationGroup = 'Halaman';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -48,10 +49,17 @@ class LegalitasResource extends Resource
                             ->directory('legalitas')
                             ->imageEditor()
                             ->imageEditorAspectRatios([
+                                null,
                                 '16:9',
                                 '4:3',
                                 '1:1',
+                                '3:4',
+                                '9:16',
                             ])
+                            ->imageResizeMode('contain')
+                            ->imageResizeTargetWidth('1200')
+                            ->imageResizeTargetHeight('1200')
+                            ->helperText('Upload gambar dengan format JPG, PNG, atau GIF. Maksimal ukuran file 2MB.')
                             ->maxSize(2048) // 2MB
                             ->columnSpanFull(),
                     ])
@@ -106,7 +114,8 @@ class LegalitasResource extends Resource
                     ->label('Nama Legalitas')
                     ->searchable()
                     ->sortable()
-                    ->wrap(),
+                    ->wrap()
+                    ->alignment('center'),
                 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -125,6 +134,7 @@ class LegalitasResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -149,5 +159,10 @@ class LegalitasResource extends Resource
             'create' => Pages\CreateLegalitas::route('/create'),
             'edit' => Pages\EditLegalitas::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

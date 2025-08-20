@@ -24,8 +24,9 @@ class TagResource extends Resource
     protected static ?string $modelLabel = 'Tag';
 
     protected static ?string $pluralModelLabel = 'Tags';
+    protected static ?string $navigationGroup = 'Halaman';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -69,6 +70,7 @@ class TagResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -93,5 +95,10 @@ class TagResource extends Resource
             'create' => Pages\CreateTag::route('/create'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

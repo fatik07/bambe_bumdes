@@ -24,6 +24,8 @@ class TestimonialResource extends Resource
     protected static ?string $navigationLabel = 'Testimonial';
 
     protected static ?string $pluralModelLabel = 'Testimonial';
+    protected static ?string $navigationGroup = 'Katalog';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -39,24 +41,29 @@ class TestimonialResource extends Resource
                             });
                     })
                     ->required()
-                    ->searchable(),
-                Forms\Components\TextInput::make('nama_project')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Nama Project'),
-                Forms\Components\TextInput::make('nama_client')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Nama Client'),
+                    ->searchable()
+                    ->columnSpan(1),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('nama_project')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Nama Project'),
+                        Forms\Components\TextInput::make('nama_client')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Nama Client'),
+                    ]),
                 Forms\Components\Textarea::make('deskripsi')
                     ->required()
                     ->rows(4)
-                    ->label('Deskripsi'),
+                    ->label('Deskripsi')
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('complete_hari')
                     ->required()
                     ->numeric()
                     ->minValue(1)
-                    ->label('Complete (Hari)')
+                    ->label('Selesai dikerjakan berapa hari')
                     ->suffix('hari'),
                 Forms\Components\FileUpload::make('gambar')
                     ->label('Gambar')
@@ -65,7 +72,20 @@ class TestimonialResource extends Resource
                     ->directory('testimonials')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif'])
                     ->maxSize(2048)
+                    ->maxFiles(5)
                     ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                        '3:4',
+                        '9:16',
+                    ])
+                    ->imageResizeMode('contain')
+                    ->imageResizeTargetWidth('1200')
+                    ->imageResizeTargetHeight('1200')
+                    ->helperText('Upload gambar dengan format JPG, PNG, atau GIF. Maksimal ukuran file 2MB.')
                     ->columnSpanFull(),
             ]);
     }
@@ -96,17 +116,17 @@ class TestimonialResource extends Resource
                     ->label('Nama Client'),
                 Tables\Columns\TextColumn::make('complete_hari')
                     ->sortable()
-                    ->label('Complete (Hari)')
+                    ->label('Selesai (Hari)')
                     ->suffix(' hari')
                     ->badge()
                     ->color('success'),
-                Tables\Columns\TextColumn::make('deskripsi')
-                    ->limit(50)
-                    ->label('Deskripsi'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->label('Dibuat'),
+                // Tables\Columns\TextColumn::make('deskripsi')
+                //     ->limit(50)
+                //     ->label('Deskripsi'),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->label('Dibuat'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('sub_katalog_id')
@@ -121,6 +141,7 @@ class TestimonialResource extends Resource
                     ->searchable(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->after(function (Testimonial $record) {
@@ -159,5 +180,10 @@ class TestimonialResource extends Resource
             'create' => Pages\CreateTestimonial::route('/create'),
             'edit' => Pages\EditTestimonial::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

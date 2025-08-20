@@ -27,8 +27,8 @@ class UserResource extends Resource
     protected static ?string $modelLabel = 'User';
 
     protected static ?string $pluralModelLabel = 'Users';
-
-    protected static ?int $navigationSort = 3;
+    protected static ?string $navigationGroup = 'Admin User';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -175,5 +175,10 @@ class UserResource extends Resource
             'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }
